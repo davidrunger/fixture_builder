@@ -31,7 +31,7 @@ require 'fixture_builder'
 
 class MagicalCreature < ActiveRecord::Base
   validates_presence_of :name, :species
-  serialize :powers, Array
+  serialize :powers, type: Array
 
   if ActiveRecord::VERSION::MAJOR >= 4
     default_scope -> { where(deleted: false) }

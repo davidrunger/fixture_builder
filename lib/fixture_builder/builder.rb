@@ -74,10 +74,18 @@ module FixtureBuilder
     end
 
     def delete_tables
-      ActiveRecord::Base.connection.disable_referential_integrity do
-        tables.each do |t|
-          ActiveRecord::Base.connection.delete(format(delete_sql,
-                                                      table: ActiveRecord::Base.connection.quote_table_name(t)))
+      ActiveRecord::Base.with_connection do |connection|
+        connection.disable_referential_integrity do
+          tables.each do |t|
+            ActiveRecord::Base.with_connection do |connection|
+              connection.delete(
+                format(
+                  delete_sql,
+                  table: connection.quote_table_name(t),
+                ),
+              )
+            end
+          end
         end
       end
     end
@@ -118,8 +126,14 @@ module FixtureBuilder
               end
             end
           else
-            rows = ActiveRecord::Base.connection.select_all(format(select_sql,
-                                                                   table: ActiveRecord::Base.connection.quote_table_name(table_name)))
+            rows = ActiveRecord::Base.with_connection do |connection|
+              connection.select_all(
+                format(
+                  select_sql,
+                  table: connection.quote_table_name(table_name),
+                ),
+              )
+            end
           end
           next files if rows.empty?
 
