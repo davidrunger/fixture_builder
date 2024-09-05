@@ -40,7 +40,7 @@ class NamerTest < Test::Unit::TestCase
       [record_hash['email'].split('@').first, index].join('_')
     end
 
-    assert_equal 'bob_001', @namer.record_name(hash, Model.table_name, '000')
+    assert_equal 'bob_001', @namer.record_name(hash, Model.table_name, +'000')
   end
 
   def test_record_name_without_name_with_or_custom_name
@@ -48,7 +48,7 @@ class NamerTest < Test::Unit::TestCase
       'id' => 1,
       'email' => 'bob@example.com'
     }
-    assert_equal 'models_001', @namer.record_name(hash, Model.table_name, '000')
+    assert_equal 'models_001', @namer.record_name(hash, Model.table_name, +'000')
   end
 
   def test_record_name_with_inferred_record_name
@@ -57,7 +57,7 @@ class NamerTest < Test::Unit::TestCase
       'title' => 'foo',
       'email' => 'bob@example.com'
     }
-    assert_equal 'foo', @namer.record_name(hash, Model.table_name, '000')
+    assert_equal 'foo', @namer.record_name(hash, Model.table_name, +'000')
   end
 
   def test_name_not_unique_across_tables
@@ -69,9 +69,9 @@ class NamerTest < Test::Unit::TestCase
       'id' => 2,
       'title' => 'foo'
     }
-    assert_equal 'foo', @namer.record_name(hash, Model.table_name, '000')
-    assert_equal 'foo', @namer.record_name(hash, AnotherModel.table_name, '000')
-    assert_equal 'foo_1', @namer.record_name(hash_with_same_title, Model.table_name, '000')
+    assert_equal 'foo', @namer.record_name(hash, Model.table_name, +'000')
+    assert_equal 'foo', @namer.record_name(hash, AnotherModel.table_name, +'000')
+    assert_equal 'foo_1', @namer.record_name(hash_with_same_title, Model.table_name, +'000')
   end
 
   def test_populate_custom_names_for_rails_30_and_earlier
@@ -79,6 +79,6 @@ class NamerTest < Test::Unit::TestCase
       'foo' => MockFixture
     }
     @namer.populate_custom_names(mock_fixtures)
-    assert_equal 'foo', @namer.record_name(MockFixture, Model.table_name, '1')
+    assert_equal 'foo', @namer.record_name(MockFixture, Model.table_name, +'1')
   end
 end

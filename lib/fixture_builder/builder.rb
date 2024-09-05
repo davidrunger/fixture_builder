@@ -137,7 +137,7 @@ module FixtureBuilder
           end
           next files if rows.empty?
 
-          row_index = '000'
+          row_index = +'000'
           fixture_data = rows.inject({}) do |hash, record|
             hash.merge(record_name(record, table_name, row_index) => record)
           end
