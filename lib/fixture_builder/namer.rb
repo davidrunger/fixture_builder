@@ -49,7 +49,7 @@ module FixtureBuilder
     def record_name(record_hash, table_name, row_index)
       key = [table_name, record_hash['id'].to_i]
       name = if (name_proc = @model_name_procs[table_name])
-               name_proc.call(record_hash, row_index.succ!)
+               name_proc.call(record_hash, row_index.succ)
              elsif (custom = @custom_names[key])
                custom
              else
@@ -73,7 +73,7 @@ module FixtureBuilder
         end
         return count.zero? ? inferred_name : "#{inferred_name}_#{count}"
       end
-      [table_name, row_index.succ!].join('_')
+      [table_name, row_index.succ].join('_')
     end
   end
 end

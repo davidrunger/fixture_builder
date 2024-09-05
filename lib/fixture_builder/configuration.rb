@@ -107,7 +107,9 @@ module FixtureBuilder
     end
 
     def tables
-      ActiveRecord::Base.connection.tables - skip_tables
+      ActiveRecord::Base.with_connection do |connection|
+        connection.tables - skip_tables
+      end
     end
 
     def fixture_directory
